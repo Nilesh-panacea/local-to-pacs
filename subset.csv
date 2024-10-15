@@ -1,0 +1,39 @@
+S No,Patient ID (UHID),Age,Gender,Slice Thickness (in mm),Unnamed: 5,Unnamed: 6,Date of Acquisition,Data Obtained from,Unnamed: 9,Name of Protocol,Name of Manufacture,Features,Unnamed: 13,Unnamed: 14,Unnamed: 15,Unnamed: 16,Unnamed: 17,Unnamed: 18,Unnamed: 19,Injury Details,Unnamed: 21,Unnamed: 22,Pathology,Unnamed: 24,Unnamed: 25,Unnamed: 26,Unnamed: 27,Admission GCS,Unnamed: 29,Unnamed: 30,Unnamed: 31,Discharge GCS,Unnamed: 33,Unnamed: 34,Unnamed: 35,Analyst Assessment,Radiologist Diagnosis,Pathology Status,Pathologies/Keywords Identified,Bleed Only Status,Bleed Sub-Category,Major abnormality,Bleed,Uploaded,Unnamed: 45
+197.0,101536955,35,M,1,1,0,26-01-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,Normal study.,Normal,,No,,,1,0,
+239.0,101769301,83,M,1,1,0,28-01-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,Hypodensity- Fronto-parieto ,Hypodensity- Bilateral,0,0.0,1.0,1.0,0.0,0.0,,,,,,,,,,"There is prominence of sulcogyral pattern,ventricular system and extra-axial CSF spaces s/o age related diffuse cerebral atrophy.
+Ill defined periventricular hypodensity seen in b/l fronto-parietal region s/o non-specific ischaemic changes.
+Few chronic lacyunar infarcts in b/l ganglio-capsular region.
+Ventricles and cisternal spaces are prominent due to atrophy.
+NCCT head shows diffuse cerebral atrophy with non-specific ischaemic changes as described",Abnormal,"cerebr, atrophy, chronic, infarct, ventricle",No,,,1,0,
+358.0,100724288,56,M,1,1,0,31-01-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Cerebral atrophy,0,0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,"Prominent ventricles and cisternal spaces s/o of cerebral atrophy.
+",Abnormal,"ventricle, cerebr, atrophy",No,,,1,0,
+470.0,101150678,70,M,1,1,0,02-02-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,A focal hypodensity seen in the rt frontal white matter ? glioitic. Mild bifrontal atrophy seen.,Abnormal,"focal, atrophy",No,,,1,0,
+573.0,100643712,55,F,1,1,0,05-02-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,1.0,0.0,1.0,1.0,0.0,1.0,0.0,0.0,Midline shift,Midline shift- Left,Midline shift= 9 mm,1.0,0.0,0.0,0.0,0.0,,,,,,,,,,"In a known case of recurrent SCC of right orbit,
+Subdural collection with blood fluid level (max depth 1.7cms at right frontal region) in right frontoparietotemporal region with midline shift of 9mm to left.
+Enhancing soft tissue seen involving right orbit, right temporal region (involving right temporalis muslce) and right frontal region with underlying permeative destruction (with spicules) of right frontal bone, s medial, lateral and roof of right orbit. right globe and right optic nerve couldnot be visualised seperately, (likely involved). No obvious intra cranial extension is seen. -recurrent / residual lesion.",Abnormal,"fluid, tempor, bone, lesion",Yes,Bleed-Subdural,Midline shift /Subdural,0,1,
+627.0,101123383,20,M,1,1,0,06-02-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,"Hypodensity- Parietal, Occipital, Frontal, Caudate lobes
+Infarct- Posterior horn of lateral ventricle","Hypodesnity- Bilateral parietal,
+bilateral occipital,
+right frontal, 
+right caudate lobe.
+Infacrt- Left horn",0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,"Illdefined hypodensities seen in bilateral parietal and occipital lobes (L>R), and right frontal lobe, involving both grey and white matter and right caudtae lobe. Left posterior horn of lateral ventricle is mildly dilated (exvaco dilatation) likely old infarct ?Embolic event. Advice - clinical correlation and MRI (if required).",Abnormal,"pariet, lobe, ventricle, infarct",No,,,1,0,
+633.0,101075443,35,M,1,1,0,06-02-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,No trauma related injury seen.,Normal,,No,,,1,0,
+787.0,100477519,32,F,1,1,0,10-02-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0,0,0,0.0,0.0,0.0,0.0,0.0,,,,,,,,,,"normal study
+",Normal,,No,,,1,0,
+1147.0,101278047,40,M,1,1,0,19-02-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,,,,,,,,,,,,,,,,,,,,,,,,,,"Normal study
+",Normal,,No,,,1,0,
+1175.0,100535511,42,M,1,1,0,20-02-2021 00:00,1.0,0.0,TC_HeadCSPINERoutineSeq,Siemens,,,,,,,,,,,,,,,,,,,,,,,,,,"Chronic lacunar infarct in left lentiform nucleus.
+B/L maxillary polypoidal mucosal thickening.",Abnormal,,No,,,1,0,
+1356.0,101169894,44,M,0,0,1.25,25-02-2021 00:00,1.0,0.0,1.1 AIIMS RD HEAD ROUTINE,GE MEDICAL SYSTEMS,,,,,,,,,,,,,,,,,,,,,,,,,,"Right gangliocapsular and thalamic intraparenchymal bleed measuring approx 3.6 x 3.1 cm with intraventricular extension into bilateral lateral , 3rd and 4th ventricles and resultant obstructive hydrocephalus. Midline shift of 6mm towards left seen.
+
+Small ~6 mm calcified granuloma is seen in left temporal lobe.",Abnormal,,Yes,Bleed-Intraventricular,Midline shift /Intraventricular,0,1,
+1425.0,101453181,35,F,0,0,0.625,26-02-2021 00:00,1.0,0.0,1.3 HEAD - fast one rotation-for noncoopertaive pts,GE MEDICAL SYSTEMS,,,,,,,,,,,,,,,,,,,,,,,,,,"* Diffuse bilateral sulcal effacement likely cerebral edema with heterogeneous basal cisterns - ? meningitis
+* Mildly prominent left lateral ventricle with EVD in right lateral ventricle and air in right lateral ventricle
+
+Global effacement of sulci in bilateral cerebral hemispheres likely cerebral edema.
+Basal cisterns show heterogeneous attenuation.
+Mild prominence of left lateral ventricle. External ventricular drain is seen in situ in body of right lateral ventricle. A focus of air is seen in frontal horn of right lateral ventricle, s/o pneumocephalus.",Abnormal,"fracture, bone, cervical, spine, lesion, vertebra",No,,,1,0,
+1578.0,101206047,27,M,1,1,0,01-03-2021 00:00,1.0,0.0,AIIMS_DF_HeadRoutineSeq,Siemens,,,,,,,,,,,,,,,,,,,,,,,,,,"Hyperdense area/lesion (mean HU 69) in left posterior temporal region measuring 7x4mm with no perilesional edema.  , ? hemorrhage ? granuloma
+Adv: CEMRI correlation.",Abnormal,"bleed, lobe, focal, sah, pariet",No,,,1,0,
+,100921875,28,O,1,1,0,01-Sep-21,,,AIIMS_DF_HeadRoutineSeq,Siemens,,,,,,,,,,,,,,,,,,,,,,,,,,"Diffuse cerebral edema
+",Abnormal,"lesion, bone, brain, parenchyma",No,,,1,0,
