@@ -4,25 +4,8 @@ import { StudiesServices } from "../Services/studies.services";
 import fs from "fs";
 import csvParser from "csv-parser";
 import Study from "../../shared/models/study.model";
-
-interface StudyData {
-  patientId: string | null;
-  age: number | null;
-  gender: string;
-  slickThickness: number | null;
-  dateOfAcquisition: string | null;
-  protocol: string;
-  manufacture: string;
-  injuryDetails: string;
-  radiologistDiagnosis: string;
-  pathologyStatus: string;
-  keywords: string[];
-  bleedOnlyStatus: string;
-  bleedSubCategory: string;
-  majorAbnormality: string;
-  bleed: boolean;
-  uploaded: boolean;
-}
+import { IStudyData } from "../Types/study.types";
+import path from "path";
 
 export class StudyControllers {
   private req: Request;
@@ -59,81 +42,36 @@ export class StudyControllers {
   };
 
   public postStudies = async () => {
-    function readStreamFile(filePath: string): Promise<StudyData[]> {
-      return new Promise((resolve, reject) => {
-        const results: StudyData[] = [];
-        const readStream = fs.createReadStream(filePath).pipe(csvParser());
-
-        readStream.on("data", (data) => {
-          // console.log("Processing chunk:", chunk);
-          const studyData = {
-            patientId: data["Patient ID (UHID)"] || "",
-            age: parseInt(data["Age"]) || null,
-            gender: data["Gender"] || "",
-            slickThickness: parseFloat(data["Slice Thickness (in mm)"]) || null,
-            dateOfAcquisition: data["Date of Acquisition"] || null,
-            protocol: data["Name of Protocol"] || "",
-            manufacture: data["Name of Manufacture"] || "",
-            injuryDetails: data["Injury Details"] || "",
-            radiologistDiagnosis: data["Radiologist Diagnosis"] || "",
-            pathologyStatus: data["Pathology Status"] || "",
-            keywords: data["Pathologies/Keywords Identified"]
-              ? data["Pathologies/Keywords Identified"]
-                  .split(",")
-                  .map((k: string) => k.trim())
-              : [],
-            bleedOnlyStatus: data["Bleed Only Status"] || "",
-            bleedSubCategory: data["Bleed Sub-Category"] || "",
-            majorAbnormality: data["Major abnormality"] || "",
-            bleed: data["Bleed"] === "1", // Assuming '1' means true
-            uploaded: data["Uploaded"] === "1", // Assuming '1' means true
-          };
-          results.push(studyData);
-        });
-
-        readStream.on("end", async () => {
-          try {
-            const existingStudies = await Study.find({
-              patientId: { $in: results.map((r) => r.patientId) },
-            });
-            const existingIds = new Set(
-              existingStudies.map((study) => study.patientId)
-            );
-
-            const postedStudies = results.filter(
-              (study) => !existingIds.has(study.patientId || "")
-            );
-            if (postedStudies.length > 0) {
-              await Study.insertMany(postedStudies);
-              console.log(`${postedStudies.length} new records inserted.`);
-            }
-            resolve(postedStudies);
-          } catch (error) {
-            if (error instanceof Error) throw new Error(error.message);
-            else throw new Error("something went wrong adding studies");
-          }
-        });
-
-        readStream.on("error", (err) => {
-          console.error("An error occurred:", err);
-          reject({ success: false, error: err }); // Reject with false and the error
-        });
-      });
-    }
-
-    const filePath = process.env.STUDY_CSV_PATH || "";
-    // "C:\\Users\\niles\\Desktop\\Office Files\\local to pacs utility\\initialFiles\\studies.csv";
+    const { studyPath } = this.policy.getStudyDir();
+    const studyDir = path.resolve(studyPath || "");
     try {
-      const postedStudies = await readStreamFile(filePath);
-      if (postedStudies.length > 0)
-        return this.res.status(201).send(postedStudies);
-      return this.res.sendStatus(200);
+      const studies = await this.service.addStudies(this.req.files, studyDir);
+      if(studies && studies.length > 0){
+        return this.res.status(201).send(studies);
+      }else{
+        return this.res.status(200).send({message : "No New study to upload"});
+      }
     } catch (error) {
       if (error instanceof Error) {
         console.log(error);
         return this.res.status(500).send(error);
       } else
-        return this.res.status(500).send({ message: "Something went wrong!!" });
+      return this.res.status(500).send({ message: "Something went wrong!!" });
     }
   };
+  
+  public resolveStudy = async()=>{
+    try {
+      const patientId = this.policy.getPatientId();
+      const resolvedStudy = await this.service.resolveStudyByPatientId(patientId);
+      if(!resolvedStudy){
+        return this.res.status(200).send({message: "Study is path is not resolved( study path is still not present)"});
+      }else{
+        return this.res.status(200).send(`Study with patient id: ${patientId}, is resolved successfully`);
+      }
+    } catch (error) {
+      console.log(error);
+      return this.res.status(500).send(error);
+    }
+  }
 }

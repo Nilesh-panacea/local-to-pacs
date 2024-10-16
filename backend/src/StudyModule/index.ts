@@ -24,5 +24,8 @@ export class StudyModule {
       async (req: Request, res: Response, next: NextFunction) => execValidation(req, res, next),
       async (req: Request, res: Response, next: NextFunction) => await new StudyControllers(req, res).postStudies()
     );
+    this.router.post("/:patientId/resolve",
+      async (req: Request, res: Response, next: NextFunction) => await new StudyControllers(req, res).resolveStudy()
+    )
   };
 }

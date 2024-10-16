@@ -15,6 +15,16 @@ export class StudiesPolicy {
       sortOrder: sortOrder === "desc" ? -1 : 1,
     };
   };
+  getStudyDir = () => {
+    const { studyPath } = this.req.body;
+    return {
+      studyPath: (studyPath as string) || "",
+    };
+  }
+  getPatientId=()=>{
+    const {patientId} = this.req.params;
+    return this.req.params.patientId as string;
+  }
   // getPostStudyServicePayload=()=>{
   //   const {}
   // }

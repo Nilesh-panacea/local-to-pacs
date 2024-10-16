@@ -57,10 +57,23 @@ const studySchema = new mongoose.Schema(
       type: String,
     },
     batchName: String,
-    newStudyName:{
+    newStudyName: {
       type: String,
       default: ""
+    },
+    //
+    localPath: {
+      type: String,
+      required: true
+    },
+    presentLocaly: {
+      type: Boolean,
+      default: false
+    },
+    transfered: {
+      type: Boolean,
     }
+    //
   },
   {
     timestamps: true,
