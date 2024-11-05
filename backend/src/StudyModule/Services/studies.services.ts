@@ -92,4 +92,9 @@ export class StudiesServices {
             return false;
         }
     }
+
+    public getPacsStudies = async ()=>{
+        const pacsStudies = await this.repository.getPacsStudies();
+        return pacsStudies;
+    }
 }

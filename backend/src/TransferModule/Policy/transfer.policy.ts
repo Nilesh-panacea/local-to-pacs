@@ -8,12 +8,15 @@ export class TransferPolicy {
         this.req = req;
     }
     public getTransferBatchPayload = (req: Request) => {
-        const {resources, level, aet} = req.body;
+        const {resources, aet} = req.body;
         const data: ITransferBatchPayload = {
             resources,
-            level,
             aet,
         }
         return data;
+    }
+    public getJobId=(req: Request)=>{
+        const {jobId} = req.params;
+        return jobId as string;
     }
 }

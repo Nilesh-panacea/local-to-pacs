@@ -25,6 +25,12 @@ export class App {
       res.status(200).send("<h2>Hello world!!</h2>");
     });
     this.app.use(`${this.BASE_URL}/upload`,  new UploadModule().router);
+    // this.app.use(`${this.BASE_URL}/pacsStudy`,  new PacsStudyModule().router);
+    // getPaginatedStudies(paginationOption) : ---> controller.paginatedStudies --> policy.getPaginatedStudies(), services.getsStudies(payload) ---> this.getStudy
+    // getStudies(pacsStudyId[]---> get this from "/transfer/getJobs/:jobId") : ---> return studyData[];
+    // deleteStudies
+    // getStudy : ---> return studyData;
+    // DELETE : study.transfered
     this.app.use(`${this.BASE_URL}/studies`, new StudyModule().router);
     this.app.use(`${this.BASE_URL}/transfer`, new TransferModule().router);
   };

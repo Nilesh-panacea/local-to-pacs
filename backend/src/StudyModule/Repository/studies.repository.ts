@@ -3,6 +3,7 @@ import { IPaginataionParams } from "../../shared/Types/pagination.types";
 import { StudyData } from "../Services/studies.services";
 import path from "path";
 import fs from "fs";
+import PacsStudy from "../../shared/models/pacsStudy.model";
 
 export class StudyRepository {
   public addStudy = async (study: StudyData, studyDir: string) => {
@@ -59,6 +60,10 @@ export class StudyRepository {
   }
   public getByPatientUUID = async (patientUUID: string) => {
     const findStudy = await StudyRepository.getByPatientUUID(patientUUID);
+    return findStudy;
+  }
+  public getPacsStudies = async () => {
+    const findStudy = await PacsStudy.find();
     return findStudy;
   }
 }

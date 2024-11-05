@@ -3,6 +3,7 @@ import UploadBatchButton from './Components/UploadBatchButton'
 import StudyTable from './Screens/StudyTable'
 import UpdateStudies from './Components/UpdateStudies';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import Home from "./Screens/Home"
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -11,13 +12,13 @@ function App() {
   return (
     <>
       <div>
-        <UploadBatchButton />
-        <UpdateStudies />
+        {/* <UploadBatchButton /> */}
+        {/* <UpdateStudies /> */}
         <Routes>
-          <Route path='/' element={<Navigate to={"/studies"} />} />
+          <Route path='/' element={<Home />} />
           <Route path='/studies' element={<StudyTable pageNo={pageNo} />} />
+          {/* <Route/> */}
           {/* <Route/>
-          <Route/>
           <Route/> */}
         </Routes>
       </div>

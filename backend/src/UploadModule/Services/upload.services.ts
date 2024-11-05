@@ -19,17 +19,18 @@ export class UploadServices {
   // public anonymize = async (study: Stu)
   public uploadSingleInstance = async (instancePath: string, orthancUrl: string) => {
     try {
+      const username = process.env.PACS_USERNAME;
+      const password = process.env.PACS_PASSWORD;
+      const credentials = Buffer.from(`${username}:${password}`).toString(
+        "base64"
+      );
       const fileStream = fs.createReadStream(instancePath);
       const response = await axios.post(
         orthancUrl + "/instances",
         fileStream,
         {
-          auth: {
-            username: process.env.ORTHANC_USERNAME || "",
-            password: process.env.ORTHANC_PASSWORD || "",
-          },
           headers: {
-            "Content-Type": "application/dicom", // Set the correct content type for DICOM files
+            Authorization: `Basic ${credentials}`,
           },
           maxContentLength: Infinity, // Allow large files
           maxBodyLength: Infinity, // Allow large files
@@ -55,12 +56,20 @@ export class UploadServices {
     const orthancUrl = process.env.ORTHANC_URL || "http://localhost:8042";
     let studyId: string = "";
     try {
-      const findStudy = await Study.findOne({ patientId: patientUUID });
+      const username = process.env.PACS_USERNAME;
+      const password = process.env.PACS_PASSWORD;
+      const credentials = Buffer.from(`${username}:${password}`).toString(
+        "base64"
+      );
+      const findStudy = await Study.findOne({ patientId: patientUUID });  // Getting DB study
       if (!findStudy) {
         throw new Error("Invalid patient Id entered !");
       }
+      if(!findStudy.presentLocaly){
+        throw new Error("Study not present Locally !!");
+      }
       const dcmFiles = globSync(
-        `${process.env.STUDY_DIR}/${patientUUID}/**/*.dcm`
+        `${findStudy.localPath}/**/*.dcm`
       );
       const fullPaths = dcmFiles.map((dcmFile) => path.resolve(dcmFile));
       if (fullPaths.length === 0) {
@@ -71,7 +80,12 @@ export class UploadServices {
         studyId = await this.uploadSingleInstance(dcmFile, orthancUrl);
       }
       const orthancStudyResponse = await axios.get(  // get Study name
-        orthancUrl + "/studies/" + studyId
+        orthancUrl + "/studies/" + studyId,
+        {
+          headers: {
+            Authorization: `Basic ${credentials}`,
+          },
+        }
       );
       let studyNewName =
         orthancStudyResponse.data?.PatientMainDicomTags?.PatientName ||
@@ -95,12 +109,8 @@ export class UploadServices {
             Synchronous: true,
           },
           {
-            auth: {
-              username: process.env.ORTHANC_USERNAME || "",
-              password: process.env.ORTHANC_PASSWORD || "",
-            },
             headers: {
-              "Content-Type": "application/dicom", // Set the correct content type for DICOM files
+              Authorization: `Basic ${credentials}`,
             },
             maxContentLength: Infinity, // Allow large files
             maxBodyLength: Infinity, // Allow large files
@@ -134,23 +144,18 @@ export class UploadServices {
     }
   };
 
-  public uploadBatch = async (batchSize: number, anonymize: boolean, bleedOnly: boolean) => {
+  public uploadBatch = async (patientIds: string[], anonymize: boolean) => {
     let batchName = await getBatchName();
-    const studies = await this.repositories.getBatchStudies(batchSize, bleedOnly);
-    const data: {
-      studyId: string | null | undefined;
-      studyName: string;
-    }[] = [];
-    for (const study of studies) {
-      const response = await this.uploadSingle(
-        study.patientId,
+    const data = patientIds.map((patientId) => {
+      return this.uploadSingle(
+        patientId,
         anonymize,
         batchName,
         false
-      );
-      data.push(response);
-    }
+      )
+    })
+    const result = await Promise.all(data);
     await incrementBatchNo();
-    return data;
+    return result;
   };
 }

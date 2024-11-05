@@ -40,12 +40,9 @@ export class UploadController {
     }
   };
   uploadBatch = async () => {
-    // return this.res.status(200).send("helllllppppp");
     try {
-      const { batchSize, anonymize, bleedOnly } = this.policy.getBatchSize(this.req);
-      console.log("{ batchSize, anonymize, bleedOnly } : ", { batchSize, anonymize, bleedOnly });
-      // const uploadOptions = this.policy.getUploadOptions(this.req);
-      const response = await this.service.uploadBatch(batchSize, anonymize, bleedOnly);
+      const {patientIds, anonymize} = this.policy.getBatchPatientIds(this.req);
+      const response = await this.service.uploadBatch(patientIds, anonymize);
       return this.res.status(200).send(response);
     } catch (error) {
       if (error instanceof Error) {

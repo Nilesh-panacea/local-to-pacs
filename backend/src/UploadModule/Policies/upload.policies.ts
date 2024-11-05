@@ -18,4 +18,12 @@ export class UploadPolicy {
       bleedOnly: (bleedOnly as boolean),
     };
   };
+  
+  public getBatchPatientIds = (req: Request)=>{
+    const {patientIds, anonymize} = req.body;
+    return {
+      patientIds: patientIds as string[],
+      anonymize: anonymize as boolean,
+    };
+  }
 }

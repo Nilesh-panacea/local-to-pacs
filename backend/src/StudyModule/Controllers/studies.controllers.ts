@@ -6,6 +6,7 @@ import csvParser from "csv-parser";
 import Study from "../../shared/models/study.model";
 import { IStudyData } from "../Types/study.types";
 import path from "path";
+import PacsStudy from "../../shared/models/pacsStudy.model";
 
 export class StudyControllers {
   private req: Request;
@@ -72,6 +73,19 @@ export class StudyControllers {
     } catch (error) {
       console.log(error);
       return this.res.status(500).send(error);
+    }
+  }
+
+  public getPacsStudies = async()=>{
+    try {
+      const studies = await this.service.getPacsStudies();
+      return this.res.status(200).send(studies);
+    } catch (error) {
+      if(error instanceof Error){
+        console.log(error.message);
+        return this.res.status(500).send(error.message);
+      }
+      return this.res.status(500).send("Error Getting Pacs Studies");
     }
   }
 }

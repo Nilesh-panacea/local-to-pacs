@@ -70,9 +70,9 @@ const studySchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    transfered: {
-      type: Boolean,
-    }
+    // transfered: {
+    //   type: Boolean,
+    // }
     //
   },
   {
