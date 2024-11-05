@@ -27,7 +27,7 @@ export class StudyModule {
     this.router.post("/:patientId/resolve",
       async (req: Request, res: Response, next: NextFunction) => await new StudyControllers(req, res).resolveStudy()
     )
-    this.router.post("/getPacsStudies",
+    this.router.get("/getPacsStudies",
       async (req: Request, res: Response, next: NextFunction) => await new StudyControllers(req, res).getPacsStudies()
     )
   };
