@@ -4,6 +4,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import DbStudies from '../Components/DbStudies';
+// import InputFileUpload from "../Components/UploadCSVButton"
+import CountdownTimer from "../Components/GetDataFromDatabase"
+import GetNonAnotatedData from "../Components/GetNonAnotatedData"
+import GetAnotatedData from "../Components/GetAnotatedData"
+import TableWithDownload from "../Components/DownloadFromOrthancTable"
+import InputFileUpload from '../Components/DownloadFromOrthanc';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,16 +54,28 @@ export default function BasicTabs() {
           <Tab label="DB Studies" {...a11yProps(0)} />
           <Tab label="Pacs Studies" {...a11yProps(1)} />
           <Tab label="Jobs" {...a11yProps(2)} />
+          <Tab label="Non Anotated Data" {...a11yProps(2)} />
+          <Tab label="Anotated Data" {...a11yProps(2)} />
+          <Tab label="Download From Orthanc" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
         <DbStudies/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+        <InputFileUpload/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        <CountdownTimer/>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
+        <GetNonAnotatedData/>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
+        <GetAnotatedData/>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={5}>
+        <InputFileUpload/>
       </CustomTabPanel>
     </Box>
   );
