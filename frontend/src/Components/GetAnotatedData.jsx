@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import BasicTable from './DownloadTable';
+// import BasicTable from './DownloadTable';
 import BasicTable1 from './AnotatedDataTable1';
 import BasicTable2 from './AnotatedDataTable2';
 
