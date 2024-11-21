@@ -1,0 +1,41 @@
+.three-section-container {
+    display: flex;
+    flex-direction: column; /* Stack the rows vertically */
+    height: 100vh; /* Full screen height */
+  }
+  
+  .top-row {
+    display: flex;
+    flex: 1; /* First row takes up half the screen height */
+  }
+  
+  .bottom-row {
+    display: flex;
+    flex: 1; /* Second row takes up the remaining space */
+  }
+  
+  .section {
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .left, .right {
+    flex: 1; /* Make left and right sections equal width in the first row */
+  }
+  
+  .middle {
+    flex: 1; /* Middle section takes the full width in the second row */
+  }
+  
+  .left {
+    background-color: rgb(0, 0, 0);
+  }
+  
+  .right {
+    background-color: rgb(255, 0, 0);
+  }
+  
+  .middle {
+    background-color: rgb(247, 210, 3);
+  }
+  

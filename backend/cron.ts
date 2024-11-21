@@ -128,7 +128,7 @@ async function updatePacsStudies() {
 }
 
 // Schedule the cron job to run every 5 minutes
-cron.schedule('*/2 * * * *', async() => {
+cron.schedule('*/5 * * * *', async() => {
     console.log('Checking for new studies...');
     await addNewStudies().catch(err => console.error('Error adding new studies:', err));
     await updatePacsStudies().catch(err => console.error('Error updating pacs studies:', err));

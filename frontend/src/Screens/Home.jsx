@@ -4,9 +4,13 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import DbStudies from '../Components/DbStudies';
-import DownloadFromHospital from '../Components/DownloadFromHospital';
 import PacsStudies from '../Components/PacsStudies';
 import PacsJobs from '../Components/PacsJobs';
+import ThreeSectionLayout from '../DownloadComponents/DownloadFromHospital';
+import CollapsibleTable from '../DownloadComponents/CurrentJobs2';
+import EnhancedTable from '../DownloadComponents/GetPublishedStudies';
+import CollapsibleTable2 from '../DownloadComponents/OrthancJobs';
+
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,23 +52,35 @@ export default function BasicTabs() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="DB Studies" {...a11yProps(0)} />
-          <Tab label="Pacs Studies" {...a11yProps(1)} />
-          <Tab label="Jobs" {...a11yProps(2)} />
-          <Tab label="Download From Hospital" {...a11yProps(3)} />
+          <Tab label="Download From Hospital" {...a11yProps(0)} />
+          <Tab label="Hospital Studies" {...a11yProps(1)} />
+          <Tab label="DB Studies" {...a11yProps(2)} />
+          <Tab label="Pacs Studies" {...a11yProps(3)} />
+          <Tab label="Pacs Jobs" {...a11yProps(4)} />
+          <Tab label="Published Studies" {...a11yProps(5)} />
+          <Tab label="Training Data Status" {...a11yProps(6)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <DbStudies/>
+        <ThreeSectionLayout />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <PacsStudies/>
+        <CollapsibleTable />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <PacsJobs/>
+        <DbStudies/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <DownloadFromHospital/>
+        <PacsStudies/>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
+        <PacsJobs/>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={5}>
+        <EnhancedTable />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={6}>
+        <CollapsibleTable2 />
       </CustomTabPanel>
     </Box>
   );

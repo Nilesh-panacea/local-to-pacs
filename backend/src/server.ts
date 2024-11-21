@@ -16,6 +16,12 @@ export class App {
     this.setControllers();
   }
   private setMiddlewares = () => {
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all domains
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allowed methods
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
+      next();
+    });
     this.app.use(express.json());
     this.app.use(fileUpload());
     this.app.use(express.urlencoded({ extended: true }));
@@ -67,7 +73,7 @@ export class App {
   public initializeServer = async () => {
     try {
       await this.connectDatabase();
-      this.app.listen(this.port, () => {
+      this.app.listen(this.port as number, "0.0.0.0", () => { // NEEDS TO CHANGE acc. to env
         console.log(
           `Congratulations your server is running on port ${this.port} !!`
         );
