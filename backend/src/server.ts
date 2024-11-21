@@ -1,10 +1,10 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import "dotenv/config";
 import mongoose from "mongoose";
 import { UploadModule } from "./UploadModule";
 import { StudyModule } from "./StudyModule";
 import { TransferModule } from "./TransferModule";
-import {} from "express"
+import { } from "express"
 import fileUpload from "express-fileupload";
 export class App {
   public app: Application;
@@ -19,12 +19,27 @@ export class App {
     this.app.use(express.json());
     this.app.use(fileUpload());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(
+      (req: Request, res: Response, next: NextFunction) => {
+        const currentUrl = req.originalUrl; // Captures the full URL, including query parameters
+        const method = req.method;          // Captures the HTTP method (GET, POST, etc.)
+
+        // Log the current address and method
+        console.log(`Request Method: ${method}, URL: ${currentUrl}`);
+
+        // Optionally, you can add the current address to the request object for further use
+        // req.currentUrl = currentUrl;
+
+        // Call the next middleware or route handler
+        next();
+      }
+    );
   };
   private setControllers = () => {
     this.app.get("/", (req: Request, res: Response) => {
       res.status(200).send("<h2>Hello world!!</h2>");
     });
-    this.app.use(`${this.BASE_URL}/upload`,  new UploadModule().router);
+    this.app.use(`${this.BASE_URL}/upload`, new UploadModule().router);
     // this.app.use(`${this.BASE_URL}/pacsStudy`,  new PacsStudyModule().router);
     // getPaginatedStudies(paginationOption) : ---> controller.paginatedStudies --> policy.getPaginatedStudies(), services.getsStudies(payload) ---> this.getStudy
     // getStudies(pacsStudyId[]---> get this from "/transfer/getJobs/:jobId") : ---> return studyData[];

@@ -4,7 +4,7 @@ import { StudyRepository } from "../Repository/studies.repository";
 import fileUpload from "express-fileupload";
 import csvParser from "csv-parser";
 import { Readable } from "stream";
-import { IStudyData } from "../Types/study.types";
+import { IDBStudiesFilter, IStudyData } from "../Types/study.types";
 import { parseCSV } from "../../shared/Utils/helperFunctions";
 import fs from "fs";
 
@@ -31,6 +31,11 @@ export class StudiesServices {
     private repository: StudyRepository;
     constructor() {
         this.repository = new StudyRepository;
+    }
+
+    public getFilteredStudies = async (filter: IDBStudiesFilter)=>{
+        const findStudies = await this.repository.getFilteredStudies(filter);
+        return findStudies;
     }
     public getStudies = async (paginationPayload: IPaginataionParams) => {
         const { findStudies, totalItems, totalPages, page } = await this.repository.getStudies(paginationPayload);

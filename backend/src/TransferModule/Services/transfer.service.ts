@@ -35,7 +35,7 @@ export class TransferService {
                 "base64"
             );
             const response = await axios.post(url, {
-                Resources,
+                Resources, // orthanc study ids 
                 Level: "study",
                 Asynchronous: true,
             },
@@ -57,7 +57,7 @@ export class TransferService {
     }
     public getJobs = async () => {
         try {
-            const url = `${process.env.ORTHANC_URL}/jobs`;
+            const url = `${process.env.ORTHANC_URL}/jobs?expand`;
             const username = process.env.PACS_USERNAME;
             const password = process.env.PACS_PASSWORD;
             const credentials = Buffer.from(`${username}:${password}`).toString(

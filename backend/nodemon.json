@@ -1,6 +1,7 @@
 {
   "ignore": [
     "C:/Users/niles/Desktop/Office Files/local to pacs utility/backend/src/shared/Logs/batchCounter.json",
-    "C:/Users/niles/Desktop/Office Files/local to pacs utility/backend/src/shared/Logs/bleedCounter.json"
+    "C:/Users/niles/Desktop/Office Files/local to pacs utility/backend/src/shared/Logs/bleedCounter.json",
+    "C:/Users/niles/Desktop/Office Files/local to pacs utility/backend/cron.ts"
   ]
 }

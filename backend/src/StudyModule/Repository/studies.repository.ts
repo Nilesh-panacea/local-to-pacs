@@ -4,6 +4,7 @@ import { StudyData } from "../Services/studies.services";
 import path from "path";
 import fs from "fs";
 import PacsStudy from "../../shared/models/pacsStudy.model";
+import { IDBStudiesFilter } from "../Types/study.types";
 
 export class StudyRepository {
   public addStudy = async (study: StudyData, studyDir: string) => {
@@ -35,6 +36,12 @@ export class StudyRepository {
     }
     return addedStudies.filter(study => study);
   }
+  public getFilteredStudies = async (filter: IDBStudiesFilter)=>{
+    console.log("filtersss----> : ", filter);
+    const findStudies = await Study.find(filter);
+    return findStudies;
+  }
+
   public getStudies = async (paginationPayload: IPaginataionParams) => {
     const { page, limit, sortBy, sortOrder } = paginationPayload;
     const validSortFields = Object.keys(Study.schema.paths).map((field) =>

@@ -156,6 +156,7 @@ export class UploadServices {
     })
     const result = await Promise.all(data);
     await incrementBatchNo();
+    console.log("uploaded studies result : ", result);
     return result;
   };
 }

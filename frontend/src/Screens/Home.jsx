@@ -4,6 +4,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import DbStudies from '../Components/DbStudies';
+import DownloadFromHospital from '../Components/DownloadFromHospital';
+import PacsStudies from '../Components/PacsStudies';
+import PacsJobs from '../Components/PacsJobs';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,16 +51,20 @@ export default function BasicTabs() {
           <Tab label="DB Studies" {...a11yProps(0)} />
           <Tab label="Pacs Studies" {...a11yProps(1)} />
           <Tab label="Jobs" {...a11yProps(2)} />
+          <Tab label="Download From Hospital" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
         <DbStudies/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+        <PacsStudies/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        <PacsJobs/>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
+        <DownloadFromHospital/>
       </CustomTabPanel>
     </Box>
   );

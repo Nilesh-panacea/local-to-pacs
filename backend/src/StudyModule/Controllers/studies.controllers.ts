@@ -20,10 +20,12 @@ export class StudyControllers {
     this.service = new StudiesServices();
   }
   public getStudies = async () => {
-    const paginationServicePayload = this.policy.paginationQueryPolicy();
+    // const paginationServicePayload = this.policy.paginationQueryPolicy();
+    const filterPayload = this.policy.getFilter();
     try {
-      const { findStudies, totalItems, totalPages, page } =
-        await this.service.getStudies(paginationServicePayload);
+      // const { findStudies, totalItems, totalPages, page } =
+      //   await this.service.getStudies(paginationServicePayload);
+      const findStudies = await this.service.getFilteredStudies(filterPayload);
       if (!findStudies) {
         return this.res
           .status(400)
@@ -31,7 +33,7 @@ export class StudyControllers {
       }
       return this.res
         .status(200)
-        .send({ findStudies, totalItems, totalPages, page });
+        .send(findStudies);
     } catch (error) {
       if (error instanceof Error) {
         return this.res.status(500).send(error.message);
@@ -66,7 +68,7 @@ export class StudyControllers {
       const patientId = this.policy.getPatientId();
       const resolvedStudy = await this.service.resolveStudyByPatientId(patientId);
       if(!resolvedStudy){
-        return this.res.status(200).send({message: "Study is path is not resolved( study path is still not present)"});
+        return this.res.status(400).send({message: "Study path is not resolved( study path is still not present)"});
       }else{
         return this.res.status(200).send(`Study with patient id: ${patientId}, is resolved successfully`);
       }
