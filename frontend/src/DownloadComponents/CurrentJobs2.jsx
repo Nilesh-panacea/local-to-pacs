@@ -18,30 +18,24 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
-  const [history, setHistory] = React.useState([]);
-  
+  const [history, setHistory] = React.useState([
+    { studyID: 'S001', jobID: '001', startDate: '2024-11-01', status: 'Completed' },
+    { studyID: 'S002', jobID: '002', startDate: '2024-11-05', status: 'Pending' },
+    { studyID: 'S003', jobID: '003', startDate: '2024-11-10', status: 'In Progress' },
+  ]);
+
   const handleClick = async () => {
     setOpen(!open);
-    if(!open){
-        try {
-            // Replace this with your actual API call to fetch history for the row
-            const response = await fetch(`http://127.0.0.1:8000/api/history/${row.name}`);
-            const data = await response.json();
-            setHistory(data); // Store the fetched history data
-        } catch (error) {
-            console.error('Failed to fetch history:', error);
-        }
+    if (!open) {
+      try {
+        // Replace this with your actual API call to fetch history for the row
+        const response = await fetch(`http://127.0.0.1:8000/api/history/${row.jobID}`);
+        const data = await response.json();
+        setHistory(data); // Store the fetched history data
+      } catch (error) {
+        console.error('Failed to fetch history:', error);
+      }
     }
-    // if (!history.length) { // Fetch history data only if it hasn't been fetched already
-    //   try {
-    //     // Replace this with your actual API call to fetch history for the row
-    //     const response = await fetch(`http://127.0.0.1:8000/api/history/${row.name}`);
-    //     const data = await response.json();
-    //     setHistory(data); // Store the fetched history data
-    //   } catch (error) {
-    //     console.error('Failed to fetch history:', error);
-    //   }
-    // }
   };
 
   return (
@@ -57,40 +51,36 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.name}
+          {row.jobID}
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell>
+        <TableCell align="right">{row.startDate}</TableCell>
+        <TableCell align="right">{row.status}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
                 History
               </Typography>
-              <Table size="small" aria-label="purchases">
+              <Table size="small" aria-label="history">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell>StudyID</TableCell>
+                    <TableCell>JobID</TableCell>
+                    <TableCell>StartDate</TableCell>
+                    <TableCell>Status</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
+                  {history.map((historyRow, index) => (
+                    <TableRow key={index}>
                       <TableCell component="th" scope="row">
-                        {historyRow.date}
+                        {historyRow.studyID}
                       </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
+                      <TableCell>{historyRow.jobID}</TableCell>
+                      <TableCell>{historyRow.startDate}</TableCell>
+                      <TableCell>{historyRow.status}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -105,25 +95,24 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    calories: PropTypes.number.isRequired,
-    carbs: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    history: PropTypes.arrayOf(
-      PropTypes.shape({
-        amount: PropTypes.number.isRequired,
-        customerId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    protein: PropTypes.number.isRequired,
+    jobID: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-// Main component that fetches rows data from API
 export default function CollapsibleTable() {
-  const [rows, setRows] = React.useState([]);
+  // const rows = [
+  //   { jobID: '001', startDate: '2024-11-01', status: 'In Progress' },
+  //   { jobID: '002', startDate: '2024-11-05', status: 'Completed' },
+  //   { jobID: '003', startDate: '2024-11-10', status: 'Pending' },
+  //   // Add more rows as needed
+  // ];
+  const [rows, setRows] = React.useState([
+    { jobID: '001', startDate: '2024-11-01', status: 'In Progress' },
+    { jobID: '002', startDate: '2024-11-05', status: 'Completed' },
+    { jobID: '003', startDate: '2024-11-10', status: 'Pending' },
+  ]);
   
   React.useEffect(() => {
     const fetchRowsData = async () => {
@@ -139,23 +128,21 @@ export default function CollapsibleTable() {
 
     fetchRowsData();
   }, []);
-  
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>JobID</TableCell>
+            <TableCell align="right">StartDate</TableCell>
+            <TableCell align="right">Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.name} row={row} />
+            <Row key={row.jobID} row={row} />
           ))}
         </TableBody>
       </Table>

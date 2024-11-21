@@ -1,9 +1,15 @@
 import { useState } from 'react'
-import UploadBatchButton from './Components/UploadBatchButton'
+// import UploadBatchButton from './Components/UploadBatchButton'
 import StudyTable from './Screens/StudyTable'
-import UpdateStudies from './Components/UpdateStudies';
+// import UpdateStudies from './Components/UpdateStudies';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from "./Screens/Home"
+
+import UploadBatchButton from './Components/UploadBatchButton';
+import UpdateStudies from './Components/UpdateStudies';
+
+
+
 
 function App() {
   // const [count, setCount] = useState(0)

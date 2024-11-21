@@ -27,7 +27,7 @@ const PostRequestComponent = ({ CSVPath, data }) => {
         console.log("Inside Create job");
         console.log("CSV path",CSVPath);
         console.log("data:-",data);
-        console.log("Selected rows:-",selectedRows);
+        console.log("Selected rows:-",selectedRows);                                            
         const PatientIds = [];
         for(let i=0;i<selectedRows.length;i++){
             PatientIds.push(data[selectedRows[i]]);

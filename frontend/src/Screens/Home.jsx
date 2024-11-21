@@ -3,21 +3,35 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import DbStudies from '../Components/DbStudies';
+// import DbStudies from '../Components/DbStudies';
 // import InputFileUpload from "../Components/UploadCSVButton"
-import CountdownTimer from "../Components/GetDataFromDatabase"
-import GetNonAnotatedData from "../Components/GetNonAnotatedData"
-import GetAnotatedData from "../Components/GetAnotatedData"
-import TableWithDownload from "../Components/DownloadFromOrthancTable"
-import InputFileUpload from '../Components/DownloadFromOrthanc'
-import MultiSelectTable from '../Components/MultiSelectDownloadTable';
-import WebSocketComponent from '../Components/SimpleWebSocket';
-import BasicSelect from '../Components/DragDownComponent';
-import BasicTextFields from '../Components/BasicTextField';
-import BasicButtons from '../Components/BasicSubmitButton';
-import ThreeSectionLayout from '../Components/DownloadFromHospital';
-import CollapsibleTable from '../Components/CurrentJobs2';
+// import CountdownTimer from "../Components/GetDataFromDatabase"
+// import GetNonAnotatedData from "../Components/GetNonAnotatedData"
+// import GetAnotatedData from "../Components/GetAnotatedData"
+// import TableWithDownload from "../Components/DownloadFromOrthancTable"
+// import InputFileUpload from '../Components/DownloadFromOrthanc'
+// import MultiSelectTable from '../Components/MultiSelectDownloadTable';
+// import WebSocketComponent from '../Components/SimpleWebSocket';
+// import BasicSelect from '../Components/DragDownComponent';
+// import BasicTextFields from '../Components/BasicTextField';
+// import BasicButtons from '../Components/BasicSubmitButton';
+// import ThreeSectionLayout from '../Components/DownloadFromHospital';
+// import CollapsibleTable from '../Components/CurrentJobs2';
+// import EnhancedTable from '../Components/GetPublishedStudies';
+// import CollapsibleTable2 from '../Components/OrthancJobs';
 
+
+
+// Downlaad Utils Imports ----->
+// import ThreeSectionLayout from '../Components/DownloadComponents/DownloadFromHospital';
+// import CollapsibleTable from '../Components/DownloadComponents/CurrentJobs2';
+// import EnhancedTable from '../Components/DownloadComponents/GetPublishedStudies';
+// import CollapsibleTable2 from '../Components/DownloadComponents/OrthancJobs';
+
+import ThreeSectionLayout from '../DownloadComponents/DownloadFromHospital';
+import CollapsibleTable from '../DownloadComponents/CurrentJobs2';
+import EnhancedTable from '../DownloadComponents/GetPublishedStudies';
+import CollapsibleTable2 from '../DownloadComponents/OrthancJobs';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -75,10 +89,12 @@ export default function BasicTabs() {
           <Tab label="Jobs" {...a11yProps(2)} />
           <Tab label="Non Anotated Data" {...a11yProps(3)} />
           <Tab label="Anotated Data" {...a11yProps(4)} /> */}
-          <Tab label="Download From Orthanc" {...a11yProps(5)} />
-          <Tab label="Multi select download" {...a11yProps(6)} />
+          {/* <Tab label="Download From Orthanc" {...a11yProps(5)} />
+          <Tab label="Multi select download" {...a11yProps(6)} /> */}
           <Tab label="Sample" {...a11yProps(7)} />
           <Tab label="CurrentJobs" {...a11yProps(8)} />
+          <Tab label="PublishedStudies" {...a11yProps(9)} />
+          <Tab label="OrthancJobs" {...a11yProps(10)} />
         </Tabs>
       </Box>
       {/* <CustomTabPanel value={value} index={0}>
@@ -96,17 +112,23 @@ export default function BasicTabs() {
       {/* <CustomTabPanel value={value} index={0}>
         <GetAnotatedData/>
       </CustomTabPanel> */}
-      <CustomTabPanel value={value} index={0}>
+      {/* <CustomTabPanel value={value} index={0}>
         <InputFileUpload/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <MultiSelectTable data={data} columns={columns} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
+      </CustomTabPanel> */}
+      <CustomTabPanel value={value} index={0}>
         <ThreeSectionLayout />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
+      <CustomTabPanel value={value} index={1}>
         <CollapsibleTable />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <EnhancedTable />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
+        <CollapsibleTable2 />
       </CustomTabPanel>
     </Box>
   );

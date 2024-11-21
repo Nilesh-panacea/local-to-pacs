@@ -100,24 +100,27 @@ export default function InputFileUpload({ spiResponse }) {
         </Button>
       </label>
 
-      <div>
+      <div className="" style={{"margin":"10px"}}>
         <input
           type="text"
           placeholder="IP Address"
           value={ipAddress}
           onChange={(e) => setIpAddress(e.target.value)}
+          style={{"margin":"10px"}}
         />
         <input
           type="text"
           placeholder="Port Number"
           value={portNumber}
           onChange={(e) => setPortNumber(e.target.value)}
+          style={{"margin":"10px"}}
         />
         <input
           type="text"
           placeholder="AET"
           value={aet}
           onChange={(e) => setAET(e.target.value)}
+          style={{"margin":"10px"}}
         />
       </div>
 
