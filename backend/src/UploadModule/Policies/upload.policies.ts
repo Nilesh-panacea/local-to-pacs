@@ -26,4 +26,10 @@ export class UploadPolicy {
       anonymize: anonymize as boolean,
     };
   }
+  public getAet = (req: Request)=>{
+    const {aet} = req.body;
+    return {
+      aet: aet as string,
+    };
+  }
 }

@@ -10,6 +10,7 @@ import ThreeSectionLayout from '../DownloadComponents/DownloadFromHospital';
 import CollapsibleTable from '../DownloadComponents/CurrentJobs2';
 import EnhancedTable from '../DownloadComponents/GetPublishedStudies';
 import CollapsibleTable2 from '../DownloadComponents/OrthancJobs';
+import TransferJobs from '../Components/TransferJobs';
 
 
 function CustomTabPanel(props) {
@@ -56,9 +57,10 @@ export default function BasicTabs() {
           <Tab label="Hospital Studies" {...a11yProps(1)} />
           <Tab label="DB Studies" {...a11yProps(2)} />
           <Tab label="Pacs Studies" {...a11yProps(3)} />
-          <Tab label="Pacs Jobs" {...a11yProps(4)} />
-          <Tab label="Published Studies" {...a11yProps(5)} />
-          <Tab label="Training Data Status" {...a11yProps(6)} />
+          <Tab label="Transfer Jobs" {...a11yProps(4)} />
+          <Tab label="Pacs Jobs" {...a11yProps(5)} />
+          <Tab label="Published Studies" {...a11yProps(6)} />
+          <Tab label="Training Data Status" {...a11yProps(7)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -74,12 +76,15 @@ export default function BasicTabs() {
         <PacsStudies/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <PacsJobs/>
+        <TransferJobs/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <EnhancedTable />
+        <PacsJobs/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
+        <EnhancedTable />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={7}>
         <CollapsibleTable2 />
       </CustomTabPanel>
     </Box>

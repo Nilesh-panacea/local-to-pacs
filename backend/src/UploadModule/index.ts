@@ -36,5 +36,9 @@ export class UploadModule {
             async (req: Request, res: Response, next: NextFunction) => execValidation(req, res, next),
             async (req: Request, res: Response) => await new UploadController(req, res).uploadBatch()
         );
+        this.router.post("/upload-and-transfer", uploadBatchValidation ,
+            async (req: Request, res: Response, next: NextFunction) => execValidation(req, res, next),
+            async (req: Request, res: Response) => await new UploadController(req, res).uploadAndTransferBatch()
+        );
     }
 }

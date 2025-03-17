@@ -57,4 +57,26 @@ export class UploadController {
       }
     }
   };
+
+  uploadAndTransferBatch = async()=>{
+    console.log("uploadAndTransferBatch controller");
+    try {
+      const {patientIds, anonymize} = this.policy.getBatchPatientIds(this.req);
+      const {aet} = this.policy.getAet(this.req);
+      console.log({patientIds, anonymize, aet});
+      const response =await this.service.uploadAndTransferBatch(patientIds, anonymize, aet);
+      return this.res.status(200).send(response);
+    } catch (error) {
+      if (error instanceof Error) {
+        return this.res.status(500).send(error.message);
+      } else {
+        console.log(`Something went wrong while uploading and transferring the study BATCH!`);
+        return this.res
+          .status(500)
+          .send({
+            message: `Something went wrong while uploading and transferring the study BATCH!`,
+          });
+      }
+    }
+  }
 }

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import UploadIcon from '@mui/icons-material/Upload';
-import { Box, Button, Checkbox, CircularProgress, FormControlLabel, IconButton, Modal, Snackbar, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Checkbox, CircularProgress, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Modal, Select, Snackbar, Tooltip, Typography } from '@mui/material';
 import PropTypes, { } from 'prop-types';
 import CachedIcon from '@mui/icons-material/Cached';
-import { resolveStudies, uploadStudiesToPacs } from '../../../services/api';
+import { getPacsModalities, resolveStudies, uploadAndTransferStudies, uploadStudiesToPacs } from '../../../services/api';
 import MuiAlert from '@mui/material/Alert';
 
 const CheckedOptionComponentForDBStudies = ({ selectedStudies }) => {
@@ -73,6 +73,7 @@ const ResolveStudiesModal = ({ selectedStudies }) => {
                 setSnackBarSeverity('warning');
             }
         } catch (error) {
+            if(error instanceof Error) console.warn(error.message);
             setSnackBarMessage("Error occurred while resolving studies.");
             setSnackBarSeverity('error');
         } finally {
@@ -141,9 +142,15 @@ const UploadStudiesModal = ({ selectedStudies }) => {
     const [snackBarSeverity, setSnackBarSeverity] = useState('success'); // success, error, info, warning
     const [open, setOpen] = useState(false);
     const [anonymize, setAnonymize] = useState(true);
+    
+    const [modalities, setModalities] = useState([]);
+    const [selectedModality, setSelectedModality] = useState('');
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
         setOpen(false);
+    };
+    const handleModalityChange = (event) => {
+        setSelectedModality(event.target.value);
     };
 
     const onUploadComplete = async () => {
@@ -170,10 +177,39 @@ const UploadStudiesModal = ({ selectedStudies }) => {
         }
         onUploadComplete();
     };
+    
+    const handleUploadAndTransfer = async ()=>{
+        setIsLoading(true);
+        const patientIds = selectedStudies.filter((studies) => studies.presentLocaly).map((studies) => studies.patientId);
+        const response = await uploadAndTransferStudies({
+            patientIds,
+            anonymize,
+            aet: selectedModality
+        });
+        if (response.status === 200) {
+            setSnackBarMessage("Studies Uploaded to PACS successfully !!");
+            setSnackBarSeverity("success")
+        } else {
+            setSnackBarMessage("Something went wrong while uploading the studies");
+            setSnackBarSeverity("danger")
+        }
+        onUploadComplete();
+    }
 
     const handleSnackBarClose = () => {
         setSnackBarOpen(false);
     };
+
+    useEffect(() => {
+            const addModalities = async () => {
+                const response = await getPacsModalities();
+                if (response.status === 200) {
+                    console.log("modalities: ", response.data);
+                    setModalities(response.data);
+                }
+            };
+            addModalities();
+        }, []);
 
     return (<>
         <UploadIcon onClick={handleOpen} />
@@ -210,6 +246,30 @@ const UploadStudiesModal = ({ selectedStudies }) => {
                         <Button variant="contained" color="primary" onClick={handleUpload}>
                             Confirm Upload
                         </Button>
+                        <div className='my-2 flex gap-2'>
+                            <Button variant="contained" color="success" onClick={handleUploadAndTransfer}>
+                                Upload and Transfer
+                            </Button>
+                            <FormControl fullWidth sx={{ mt: 2 }}>
+                                <InputLabel id="modality-select-label">Select Modality</InputLabel>
+                                <Select
+
+                                    labelId="modality-select-label"
+                                    id="modality-select"
+                                    value={selectedModality}
+                                    label="Select Modality"
+                                    onChange={handleModalityChange}
+                                    required
+                                >
+                                    {modalities.map((modality, index) => (
+                                        <MenuItem key={index} value={modality}>
+                                            {modality}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+
+                        </div>
                         <Button variant="outlined" color="secondary" onClick={handleClose} sx={{ mt: 1 }}>
                             Cancel
                         </Button>

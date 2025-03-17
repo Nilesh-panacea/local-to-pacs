@@ -31,4 +31,5 @@ export const uploadBatchValidation = [
             return true; // Validated successfully
         }),
     body("anonymize", "anonymize must be a boolean").optional().toBoolean().isBoolean(),
+    body("aet", "anonymize must be a boolean").isString(),
 ]

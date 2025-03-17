@@ -86,6 +86,38 @@ export const uploadStudiesToPacs = async(formData)=>{
         }
     }
 }
+
+export const uploadAndTransferStudies = async(formData)=>{
+    try {
+        const response = await axios.post("/api/upload/upload-and-transfer", formData );
+        return response;
+    } catch (error) {
+        if(error instanceof Error){
+            console.error(error.message);
+            throw error;
+        }
+        else{
+            console.log("Something went wrong while uploading and transferring the studies to local pacs !!");
+            throw new Error("Something went wrong while uploading and transferring the studies !!");
+        }
+    }
+}
+
+export const getTransferJobs = async()=>{
+    try {
+        const response = await axios.get("/api/studies//get-transfer-jobs");
+        return response;
+    } catch (error) {
+        if(error instanceof Error){
+            console.error(error.message);
+            throw error;
+        }
+        else{
+            console.log("Something went wrong while getting transfer jobs!!");
+            throw new Error("Something went wrong while getting transfer jobs !!");
+        }
+    }
+}
 export const getPacsModalities = async()=>{
     try {
         const response = await axios.get("/api/transfer/getModalities");

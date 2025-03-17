@@ -10,11 +10,18 @@ import {
   updateCounter,
 } from "../../shared/Utils/updateCounter";
 import { UploadRepositories } from "../Repositories/upload.repositories";
+import { JoBRepository } from "../Repositories/job.repository";
+import { JobStatus } from "../../shared/models/job.model";
+import { TransferService } from "../../TransferModule/Services/transfer.service";
 
 export class UploadServices {
   private repositories: UploadRepositories;
+  private jobRepository: JoBRepository;
+  private transferService: TransferService;
   constructor() {
-    this.repositories = new UploadRepositories;
+    this.repositories = new UploadRepositories();
+    this.jobRepository = new JoBRepository();
+    this.transferService = new TransferService();
   }
   // public anonymize = async (study: Stu)
   public uploadSingleInstance = async (instancePath: string, orthancUrl: string) => {
@@ -65,7 +72,7 @@ export class UploadServices {
       if (!findStudy) {
         throw new Error("Invalid patient Id entered !");
       }
-      if(!findStudy.presentLocaly){
+      if (!findStudy.presentLocaly) {
         throw new Error("Study not present Locally !!");
       }
       const dcmFiles = globSync(
@@ -132,7 +139,7 @@ export class UploadServices {
           studyName: studyNewName,
         };
       }
-      return { studyId, studyName: studyNewName };
+      return { studyId, studyName: studyNewName};
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
@@ -153,10 +160,61 @@ export class UploadServices {
         batchName,
         false
       )
-    })
+    });
     const result = await Promise.all(data);
     await incrementBatchNo();
     console.log("uploaded studies result : ", result);
     return result;
   };
+
+  public uploadAndTransferBatch = async (patientIds: string[], anonymize: boolean, aet: string) => {
+    console.log("uploadAndTransferBatch service");
+    let batchName = await getBatchName();
+    const newJob = await this.jobRepository.createNewJob();
+    newJob.patientIds = patientIds;
+    try {
+      console.log("uploading studies !!");
+      const data = patientIds.map((patientId) => {
+        return this.uploadSingle(
+          patientId,
+          anonymize,
+          batchName,
+          false
+        )
+      });
+      const response = await Promise.all(data);
+      const studyIds = response.map(item => item.studyId);
+      newJob.studies = studyIds;
+      newJob.status = JobStatus.UPLOADED;
+    } catch (error) {
+      newJob.status = JobStatus.UPLOAD_FAILED;
+      await newJob.save();
+      if (error instanceof Error) {
+        console.log(error.message);
+        throw new Error(error.message);
+      } else {
+        console.log("Error while while uploading the study !");
+        throw new Error("Error while while uploading the study !");
+      }
+    }
+
+    try {
+      console.log("transferring studies !!");
+      const response = await this.transferService.transferBatch({resources: newJob.studies, aet})
+      newJob.pacsJobId = response?.ID;
+      console.log({transferBatch : response});
+      await newJob.save();
+      return newJob;
+    } catch (error) {
+      newJob.status = JobStatus.TRANSFER_FAILED;
+      await newJob.save();
+      if (error instanceof Error) {
+        console.log(error.message);
+        throw new Error(error.message);
+      } else {
+        console.log("Error while while transferring the study !");
+        throw new Error("Error while while transferring the study !");
+      }
+    }
+  }
 }

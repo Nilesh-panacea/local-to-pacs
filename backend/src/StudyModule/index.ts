@@ -26,9 +26,12 @@ export class StudyModule {
     );
     this.router.post("/:patientId/resolve",
       async (req: Request, res: Response, next: NextFunction) => await new StudyControllers(req, res).resolveStudy()
-    )
+    );
     this.router.get("/getPacsStudies",
       async (req: Request, res: Response, next: NextFunction) => await new StudyControllers(req, res).getPacsStudies()
-    )
+    );
+    this.router.get("/get-transfer-jobs", 
+      async (req: Request, res: Response, next: NextFunction) => await new StudyControllers(req, res).getTransferJobs()
+    );
   };
 }

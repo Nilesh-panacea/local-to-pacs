@@ -3,6 +3,7 @@ import axios from 'axios';
 import cron from 'node-cron';
 import "dotenv/config"
 import PacsStudy from './src/shared/models/pacsStudy.model';
+import { Job, JobStatus } from './src/shared/models/job.model';
 // import StudyModel from './models/Study'; // Adjust the path to your Study model
 
 // MongoDB connection string
@@ -59,6 +60,19 @@ const fetchJobs = async (): Promise<any[]> => {
         return [];
     }
 };
+
+const fetchTransferJobs = async (): Promise<any[]> => {
+    try {
+        const transferJobs = await Job.find();
+        return transferJobs;
+    } catch (error) {
+        console.error('Error fetching studies from Orthanc:', error);
+        return [];
+    }
+};
+
+
+
 
 // Function to add new studies to MongoDB
 const addNewStudies = async () => {
@@ -127,9 +141,37 @@ async function updatePacsStudies() {
     console.log("<-------updatePacsStudies func. completed run------->");
 }
 
-// Schedule the cron job to run every 5 minutes
-cron.schedule('*/5 * * * *', async() => {
+
+
+async function updateTransferJobs() {
+    console.log("<-------updateTransferJobs func. running------->");
+    const transferJobs = await fetchTransferJobs();
+    const pacsJobs = await fetchJobs();
+    // Create a map for quick lookup of PACS jobs by their ID
+    const pacsJobMap = new Map(pacsJobs.map(job => [job.ID, job]));
+    for (const job of transferJobs) {
+        if (job.status === JobStatus.UPLOADED) {
+            const correspondingPacsJob = pacsJobMap.get(job.pacsJobId);
+
+            if (correspondingPacsJob) {
+                job.status = correspondingPacsJob.State === "Failure"
+                    ? JobStatus.TRANSFER_FAILED
+                    : JobStatus.TRANSFERRED;
+            }
+        }
+    }
+    // Save updated transfer jobs back to the database
+    await Promise.all(transferJobs.map(job => job.save()));
+
+    console.log("Transfer jobs updated successfully.");
+}
+
+
+
+// Schedule the cron job to run every 1 minutes
+cron.schedule('*/1 * * * *', async() => {
     console.log('Checking for new studies...');
     await addNewStudies().catch(err => console.error('Error adding new studies:', err));
     await updatePacsStudies().catch(err => console.error('Error updating pacs studies:', err));
+    await updateTransferJobs().catch(err => console.error('Error updating pacs studies:', err));
 });

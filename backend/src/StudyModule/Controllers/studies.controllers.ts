@@ -7,6 +7,7 @@ import Study from "../../shared/models/study.model";
 import { IStudyData } from "../Types/study.types";
 import path from "path";
 import PacsStudy from "../../shared/models/pacsStudy.model";
+import { Job } from "../../shared/models/job.model";
 
 export class StudyControllers {
   private req: Request;
@@ -88,6 +89,18 @@ export class StudyControllers {
         return this.res.status(500).send(error.message);
       }
       return this.res.status(500).send("Error Getting Pacs Studies");
+    }
+  }
+  public getTransferJobs = async()=>{
+    try {
+      const jobs = await Job.find();
+      return this.res.status(200).send(jobs);
+    } catch (error) {
+      if(error instanceof Error){
+        console.log(error.message);
+        return this.res.status(500).send(error.message);
+      }
+      return this.res.status(500).send("Error Getting Transfer Jobs");
     }
   }
 }

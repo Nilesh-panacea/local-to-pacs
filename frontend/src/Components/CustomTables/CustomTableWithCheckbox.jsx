@@ -18,6 +18,7 @@ const CustomTableWithCheckbox = ({
   uncheckedOptionComponent,
   setSelectedStudies,
 }) => {
+  console.log({data});
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState(defaultOrderBy);
   const [selected, setSelected] = React.useState([]);
@@ -83,13 +84,22 @@ const CustomTableWithCheckbox = ({
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
 
-  const visibleRows = React.useMemo(
-    () =>
-      [...data]
-        .sort(getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, data],
-  );
+    const visibleRows = React.useMemo(() => {
+      console.log("Sorting and slicing data...");
+      console.log("Current Order:", order);
+      console.log("Order By:", orderBy);
+      console.log("Current Page:", page);
+      console.log("Rows Per Page:", rowsPerPage);
+      console.log("Original Data:", data);
+  
+      const sortedData = [...data].sort(getComparator(order, orderBy));
+      console.log("Sorted Data:", sortedData);
+  
+      const slicedData = sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+      console.log("Sliced Data (Visible Rows):", slicedData);
+  
+      return slicedData;
+  }, [order, orderBy, page, rowsPerPage, data]);
 
 
   return (
@@ -124,7 +134,7 @@ const CustomTableWithCheckbox = ({
               {visibleRows.map((row, index) => {
                 const isItemSelected = selected.includes(row);
                 const labelId = `enhanced-table-checkbox-${index}`;
-
+                console.log({row});
                 return (
                   <TableRow
                     hover
